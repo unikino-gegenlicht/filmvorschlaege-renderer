@@ -21,3 +21,6 @@ mit dem Befehl
 sass style.scss style.css
 ```
 die benötigte CSS-Datei erstellt werden. 
+
+Anschließend können die JSON-Exporte in HTML Seiten umgewandelt
+werden.
