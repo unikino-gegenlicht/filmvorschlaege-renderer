@@ -1,6 +1,7 @@
 *
 !README.md
 !LICENSE
-*.go
+!style.scss
+!*.go
 !templates/
 !templates/*.html
