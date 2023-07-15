@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <title>Filmvorschläge Wintersemester 2023/24</title>
+    <link rel="stylesheet" href="../style.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="p-2">
+<h1 class="title has-text-centered">
+    Filmvorschläge zum Wintersemester 2023/24
+</h1>
+<p>
+    Liebes Team,<br>
+    wie jedes Semester wurden auch dieses Semester wieder Filmvorschläge für das
+    kommende Semester gesammelt.
+</p>
+<p>
+    Diese Vorschläge sind nun in einer Liste zusammengefasst worden und können
+    von euch schon mal durchgelesen werden, damit ihr alle gut auf das
+    Filmauswahltreffen am <b>24.07.2023 um 18:00 Uhr</b> vorbereitet seid.
+    Sollten bei den Vorschlägen Links zu Trailern abgegeben worden sein, sind
+    diese gesondert hervorgehoben und am Ende der PDF nochmal aufgelistet.<br>
+</p>
+<p>
+    Ansonsten habe ich nicht viel mehr anzumerken, dementsprechend viel Spaß
+    beim Lesen der PDF und solltet ihr Fragen oder Anmerkungen haben, könnt ihr
+    gerne bescheid geben.
+</p>
+<p class="mt-3 is-italic">
+    Euer Jan
+</p>
+<div class="pagebreak"></div>
+{{ range .Movies }}
+    <h2 class="title has-text-centered is-size-4">
+        {{ .Title }}
+    </h2>
+    <h3 class="subtitle has-text-centered is-size-6">
+        {{ .ProposedBy }}
+    </h3>
+    <div class="field is-grouped is-grouped-multiline is-grouped-centered">
+        <div class="control">
+            <div class="tags has-addons">
+                <span class="tag is-dark">Originaltitel</span>
+                <span class="tag is-info">{{ .OriginalTitle }}</span>
+            </div>
+        </div>
+
+        <div class="control">
+            <div class="tags has-addons">
+                <span class="tag is-dark">Sprache</span>
+                <span class="tag is-info">{{ .Language }}</span>
+            </div>
+        </div>
+
+        <div class="control">
+            <div class="tags has-addons">
+                <span class="tag is-dark">Land</span>
+                <span class="tag is-info">{{ .County }}</span>
+            </div>
+        </div>
+
+    </div>
+    <p>
+        Link zum Tailer: <a href="{{ .TrailerLink }}">{{ .TrailerLink }}</a>
+    </p>
+    <p class="has-text-justified">
+        {{ .Description }}
+    </p>
+        <div class="pagebreak"></div>
+{{ end }}
+</body>
+</html>
