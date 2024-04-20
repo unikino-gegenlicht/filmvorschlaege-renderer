@@ -1,0 +1,9 @@
+$ggl-yellow: #ffdd00;
+
+@use "../node_modules/bulma/sass/index" with (
+  $primary: $ggl-yellow
+);
+
+@media print {
+  .page {page-break-after: always;}
+}
