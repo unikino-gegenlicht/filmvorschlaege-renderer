@@ -1,0 +1,9 @@
+{
+  "devDependencies": {
+    "bulma": "^1.0.0",
+    "sass": "^1.75.0"
+  },
+  "scripts": {
+    "build-css": "sass --style=compressed --no-source-map scss/style.scss style.css"
+  }
+}

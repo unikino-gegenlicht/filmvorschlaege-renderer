@@ -1,7 +1,4 @@
-*
-!README.md
-!LICENSE
-!style.scss
-!*.go
-!templates/
-!templates/*.html
+.idea
+node_modules
+style.css
+output.html
