@@ -11,22 +11,24 @@ func (receiver SummerResponseFile) GetFeatureMovies() (featureMovies map[string]
 	for _, response := range receiver.Responses {
 		var movies []Movie
 		movies = append(movies, Movie{
-			Title:         response.Feat1Title,
-			Country:       response.Feat1Country,
-			Release:       time.Time(response.Feat1Release),
-			Distributor:   response.Feat1Distributor,
-			Description:   response.Feat1Description,
-			IMDBUrl:       response.Feat1IMDBUrl,
-			AudioLanguage: response.Feat1Country,
+			Title:              response.Feat1Title,
+			Country:            response.Feat1Country,
+			Release:            time.Time(response.Feat1Release),
+			Distributor:        response.Feat1Distributor,
+			Description:        response.Feat1Description,
+			IMDBUrl:            response.Feat1IMDBUrl,
+			AudioLanguage:      response.Feat1Country,
+			DistributorWarning: response.Feat1DistributorWarning,
 		})
 		movies = append(movies, Movie{
-			Title:         response.Feat2Title,
-			Country:       response.Feat2Country,
-			Release:       time.Time(response.Feat2Release),
-			Distributor:   response.Feat2Distributor,
-			Description:   response.Feat2Description,
-			IMDBUrl:       response.Feat2IMDBUrl,
-			AudioLanguage: response.Feat2Country,
+			Title:              response.Feat2Title,
+			Country:            response.Feat2Country,
+			Release:            time.Time(response.Feat2Release),
+			Distributor:        response.Feat2Distributor,
+			Description:        response.Feat2Description,
+			IMDBUrl:            response.Feat2IMDBUrl,
+			AudioLanguage:      response.Feat2Country,
+			DistributorWarning: response.Feat2DistributorWarning,
 		})
 		featureMovies[response.Name] = movies
 	}
@@ -38,13 +40,14 @@ func (receiver SummerResponseFile) GetDocumentations() (documentations map[strin
 	for _, response := range receiver.Responses {
 		var movies []Movie
 		movies = append(movies, Movie{
-			Title:         response.DocTitle,
-			Country:       response.DocCountry,
-			Release:       time.Time(response.DocRelease),
-			Distributor:   response.DocDistributor,
-			Description:   response.DocDescription,
-			IMDBUrl:       response.DocIMDBUrl,
-			AudioLanguage: response.DocCountry,
+			Title:              response.DocTitle,
+			Country:            response.DocCountry,
+			Release:            time.Time(response.DocRelease),
+			Distributor:        response.DocDistributor,
+			Description:        response.DocDescription,
+			IMDBUrl:            response.DocIMDBUrl,
+			AudioLanguage:      response.DocCountry,
+			DistributorWarning: response.DocDistributorWarning,
 		})
 		documentations[response.Name] = movies
 	}
