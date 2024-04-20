@@ -39,7 +39,7 @@ jobs:
           name: stylesheet
       - uses: actions/setup-go@v5
         with:
-          go-version: 'latest'
+          go-version: 'stable'
       - run: GOOS=${{matrix.os}} GOARCH=${{matrix.arch}} go build . -o dist/ggl-proposal-render_${{matrix.os}}_${{matrix.arch}}
       - uses: actions/upload-artifact@v4
         with:
