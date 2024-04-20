@@ -32,6 +32,9 @@ jobs:
         arch:
           - 'amd64'
           - 'arm64'
+        include:
+          - os: 'windows'
+            fe: '.exe'
     steps:
       - uses: actions/checkout@v4
       - uses: actions/download-artifact@v4
@@ -40,7 +43,7 @@ jobs:
       - uses: actions/setup-go@v5
         with:
           go-version: 'stable'
-      - run: GOOS=${{matrix.os}} GOARCH=${{matrix.arch}} go build -o dist/ggl-proposal-render-${{matrix.os}}-${{matrix.arch}} .
+      - run: GOOS=${{matrix.os}} GOARCH=${{matrix.arch}} go build -o dist/ggl-proposal-render-${{matrix.os}}-${{matrix.arch}}${{ matrix.fe}} .
       - uses: actions/upload-artifact@v4
         with:
           name: dist-${{matrix.os}}-${{matrix.arch}}
