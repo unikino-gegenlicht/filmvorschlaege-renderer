@@ -40,10 +40,10 @@ jobs:
       - uses: actions/setup-go@v5
         with:
           go-version: 'stable'
-      - run: GOOS=${{matrix.os}} GOARCH=${{matrix.arch}} go build -o dist/ggl-proposal-render_${{matrix.os}}_${{matrix.arch}} .
+      - run: GOOS=${{matrix.os}} GOARCH=${{matrix.arch}} go build -o dist/ggl-proposal-render-${{matrix.os}}-${{matrix.arch}} .
       - uses: actions/upload-artifact@v4
         with:
-          name: dist-${{matrix.os}}_${{matrix.arch}}
+          name: dist-${{matrix.os}}-${{matrix.arch}}
           path: |
             dist/**
   create-release:
@@ -52,7 +52,8 @@ jobs:
     steps:
       - uses: actions/download-artifact@v4
         with:
-          pattern: dist-*_*
+          pattern: dist-*-*
+          path: dist
           merge-multiple: true
       - uses: ncipollo/release-action@v1
         with:
