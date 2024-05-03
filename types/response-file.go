@@ -18,7 +18,7 @@ func (receiver SummerResponseFile) GetFeatureMovies() (featureMovies map[string]
 			Description:        response.Feat1Description,
 			IMDBUrl:            response.Feat1IMDBUrl,
 			AudioLanguage:      response.Feat1Country,
-			DistributorWarning: response.Feat1DistributorWarning,
+			DistributorWarning: bool(response.Feat1DistributorWarning),
 		})
 		movies = append(movies, Movie{
 			Title:              response.Feat2Title,
@@ -28,7 +28,7 @@ func (receiver SummerResponseFile) GetFeatureMovies() (featureMovies map[string]
 			Description:        response.Feat2Description,
 			IMDBUrl:            response.Feat2IMDBUrl,
 			AudioLanguage:      response.Feat2Country,
-			DistributorWarning: response.Feat2DistributorWarning,
+			DistributorWarning: bool(response.Feat2DistributorWarning),
 		})
 		featureMovies[response.Name] = movies
 	}
@@ -47,7 +47,7 @@ func (receiver SummerResponseFile) GetDocumentations() (documentations map[strin
 			Description:        response.DocDescription,
 			IMDBUrl:            response.DocIMDBUrl,
 			AudioLanguage:      response.DocCountry,
-			DistributorWarning: response.DocDistributorWarning,
+			DistributorWarning: bool(response.DocDistributorWarning),
 		})
 		documentations[response.Name] = movies
 	}
@@ -70,7 +70,7 @@ func (receiver WinterResponseFile) GetFeatureMovies() (featureMovies map[string]
 			Description:        response.Feat1Description,
 			IMDBUrl:            response.Feat1IMDBUrl,
 			AudioLanguage:      response.Feat1Country,
-			DistributorWarning: response.Feat1DistributorWarning,
+			DistributorWarning: bool(response.Feat1DistributorWarning),
 		})
 		movies = append(movies, Movie{
 			Title:              response.Feat2Title,
@@ -80,7 +80,7 @@ func (receiver WinterResponseFile) GetFeatureMovies() (featureMovies map[string]
 			Description:        response.Feat2Description,
 			IMDBUrl:            response.Feat2IMDBUrl,
 			AudioLanguage:      response.Feat2Country,
-			DistributorWarning: response.Feat2DistributorWarning,
+			DistributorWarning: bool(response.Feat2DistributorWarning),
 		})
 		featureMovies[response.Name] = movies
 	}
@@ -99,7 +99,7 @@ func (receiver WinterResponseFile) GetDocumentations() (documentations map[strin
 			Description:        response.DocDescription,
 			IMDBUrl:            response.DocIMDBUrl,
 			AudioLanguage:      response.DocCountry,
-			DistributorWarning: response.DocDistributorWarning,
+			DistributorWarning: bool(response.DocDistributorWarning),
 		})
 		documentations[response.Name] = movies
 	}
@@ -118,7 +118,7 @@ func (receiver WinterResponseFile) GetHalloweenMovies() (halloweenMovies map[str
 			Description:        response.HalloweenDescription,
 			IMDBUrl:            response.HalloweenIMDBUrl,
 			AudioLanguage:      response.HalloweenCountry,
-			DistributorWarning: response.HalloweenDistributorWarning,
+			DistributorWarning: bool(response.HalloweenDistributorWarning),
 		})
 		halloweenMovies[response.Name] = movies
 	}
@@ -137,7 +137,7 @@ func (receiver WinterResponseFile) GetXmasMovies() (xmasMovies map[string][]Movi
 			Description:        response.ChristmasDescription,
 			IMDBUrl:            response.ChristmasIMDBUrl,
 			AudioLanguage:      response.ChristmasCountry,
-			DistributorWarning: response.ChristmasDistributorWarning,
+			DistributorWarning: bool(response.ChristmasDistributorWarning),
 		})
 		xmasMovies[response.Name] = movies
 	}
@@ -150,7 +150,7 @@ type response struct {
 	Feat1AudioLang          string `json:"feat1audioLang"`
 	Feat1Country            string `json:"feat1country"`
 	Feat1Distributor        string `json:"feat1distributor"`
-	Feat1DistributorWarning bool   `json:"feat1distribWarn"`
+	Feat1DistributorWarning SMBool `json:"feat1DistributorWarn"`
 	Feat1IMDBUrl            string `json:"feat1imdb"`
 	Feat1Release            SMTime `json:"feat1release"`
 	Feat1Description        string `json:"feat1description"`
@@ -158,7 +158,7 @@ type response struct {
 	Feat2AudioLang          string `json:"feat2audioLang"`
 	Feat2Country            string `json:"feat2country"`
 	Feat2Distributor        string `json:"feat2distributor"`
-	Feat2DistributorWarning bool   `json:"feat2distribWarn"`
+	Feat2DistributorWarning SMBool `json:"feat2DistributorWarn"`
 	Feat2IMDBUrl            string `json:"feat2imdb"`
 	Feat2Release            SMTime `json:"feat2release"`
 	Feat2Description        string `json:"feat2description"`
@@ -166,8 +166,8 @@ type response struct {
 	DocAudioLang            string `json:"docAudioLang"`
 	DocCountry              string `json:"docCountry"`
 	DocDistributor          string `json:"docDistributor"`
-	DocDistributorWarning   bool   `json:"docdistribWarn"`
-	DocIMDBUrl              string `json:"docIMDB"`
+	DocDistributorWarning   SMBool `json:"docDistributorWarn"`
+	DocIMDBUrl              string `json:"docImdb"`
 	DocRelease              SMTime `json:"docRelease"`
 	DocDescription          string `json:"docDescription"`
 }
@@ -178,7 +178,7 @@ type winterResponse struct {
 	HalloweenAudioLang          string `json:"halloweenAudioLang"`
 	HalloweenCountry            string `json:"halloweenCountry"`
 	HalloweenDistributor        string `json:"halloweenDistributor"`
-	HalloweenDistributorWarning bool   `json:"halloweenDistribWarn"`
+	HalloweenDistributorWarning SMBool `json:"halloweenDistribWarn"`
 	HalloweenIMDBUrl            string `json:"halloweenImdb"`
 	HalloweenRelease            SMTime `json:"halloweenRelease"`
 	HalloweenDescription        string `json:"halloweenDescription"`
@@ -186,7 +186,7 @@ type winterResponse struct {
 	ChristmasAudioLang          string `json:"xmasAudioLang"`
 	ChristmasCountry            string `json:"xmasCountry"`
 	ChristmasDistributor        string `json:"xmasDistributor"`
-	ChristmasDistributorWarning bool   `json:"xmasDistribWarn"`
+	ChristmasDistributorWarning SMBool `json:"xmasDistributorWarn"`
 	ChristmasIMDBUrl            string `json:"xmasImdb"`
 	ChristmasRelease            SMTime `json:"xmasRelease"`
 	ChristmasDescription        string `json:"xmasDescription"`
