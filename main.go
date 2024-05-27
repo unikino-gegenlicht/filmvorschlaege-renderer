@@ -2,7 +2,6 @@ package main
 
 import (
 	"encoding/json"
-	"fmt"
 	"os"
 	"strings"
 	"text/template"
@@ -15,12 +14,6 @@ import (
 var availableSemesters = []string{"Wintersemester", "Sommersemester"}
 
 func main() {
-	// read the stylesheet
-	stylesheetBytes, err := content.ReadFile("style.css")
-	if err != nil {
-		pterm.DefaultLogger.Fatal("unable to read stylesheet from embeds")
-	}
-
 	semester, _ := pterm.DefaultInteractiveSelect.WithOptions(availableSemesters).Show("Bitte wähle ein Semester aus")
 	responseFilePath, _ := pterm.DefaultInteractiveTextInput.Show("Bitte gebe den Pfad zu der Antwortdatei ein")
 	responseFile, err := os.Open(strings.TrimSpace(responseFilePath))
@@ -50,7 +43,7 @@ func main() {
 		}
 		input := types.WinterTemplateInput{
 			SummerTemplateInput: types.SummerTemplateInput{
-				Stylesheet:    fmt.Sprintf("%s", stylesheetBytes),
+				Stylesheet:    stylesheet,
 				FeatureMovies: responses.GetFeatureMovies(),
 				Documentaries: responses.GetDocumentations(),
 			},
@@ -81,7 +74,7 @@ func main() {
 			}))
 		}
 		input := types.SummerTemplateInput{
-			Stylesheet:    fmt.Sprintf("%s", stylesheetBytes),
+			Stylesheet:    stylesheet,
 			FeatureMovies: responses.GetFeatureMovies(),
 			Documentaries: responses.GetDocumentations(),
 		}

@@ -1,6 +1,8 @@
 package main
 
 import (
+	"fmt"
+
 	"github.com/pterm/pterm"
 )
 
@@ -9,12 +11,10 @@ func init() {
 }
 
 func printHeader() {
-	headerPrinter := pterm.HeaderPrinter{
-		TextStyle:       pterm.NewStyle(pterm.FgBlack),
-		BackgroundStyle: pterm.NewStyle(pterm.BgLightYellow),
-		FullWidth:       true,
-		Margin:          0,
-	}
-	headerPrinter.Println("Movie Proposals Renderer")
-	headerPrinter.Println("© 2024 Jan Eike Suchard — Licensed under the MIT License")
+	p := pterm.DefaultCenter
+	p.Println("Movie Proposal Renderer")
+	msg := fmt.Sprintf("Version: %s\n", Commit)
+	msg += fmt.Sprintf("Commit Date: %s\n", CommitTime)
+	msg += "\n© Unikino GEGENLICHT (gegenlicht.net) — Licensed under the MIT License"
+	p.WithCenterEachLineSeparately().Println(msg)
 }
