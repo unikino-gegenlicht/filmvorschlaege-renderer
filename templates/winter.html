@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Filmvorschläge zum Wintersemester</title>
     <style>
-        {{.Stylesheet}}
+        {{ .Stylesheet }}
     </style>
 </head>
 <body class="p-4" data-theme="light">
@@ -36,6 +36,12 @@
         Damit bleibt nur noch zu sagen: Viel Spaß mit den vorgeschlagenen Filmen
         und bis zum Auswahltreffen
     </p>
+</div>
+<div id="movie-split-page" class="split-page">
+    <span>
+        <h1 class="title has-text-centered">Hauptfilme</h1>
+        <h2 class="subtitle has-text-centered">Main Program</h2>
+    </span>
 </div>
 <div id="movies" style="page-break-before: always">
     {{ range $proposedBy, $featureMovies := .FeatureMovies }}
@@ -104,6 +110,12 @@
     {{ end }}
     {{ end }}
 </div>
+<div class="split-page">
+   <span>
+       <h1 class="title has-text-centered">Dokumentationen</h1>
+       <h2 class="subtitle has-text-centered">Documentations</h2>
+   </span>
+</div>
 <div id="documentaries" style="page-break-before: always">
     {{ range $proposedBy, $featureMovies := .Documentaries }}
     {{ range $featureMovies }}
@@ -171,6 +183,12 @@
     {{ end }}
     {{ end }}
 </div>
+<div class="split-page">
+    <span>
+        <h1 class="title has-text-centered">Sonderprogramm: Halloween</h1>
+        <h2 class="subtitle has-text-centered">Special Program: Halloween</h2>
+    </span>
+</div>
 <div id="halloweenMovies" style="page-break-before: always">
     {{ range $proposedBy, $featureMovies := .HalloweenMovies }}
     {{ range $featureMovies }}
@@ -225,6 +243,12 @@
     </div>
     {{ end }}
     {{ end }}
+</div>
+<div class="split-page">
+    <span>
+        <h1 class="title has-text-centered">Sonderprogramm: Weihnachten</h1>
+        <h3 class="subtitle has-text-centered">Special Program: X-Mas</h3>
+    </span>
 </div>
 <div id="christmasMovies" style="page-break-before: always">
     {{ range $proposedBy, $featureMovies := .XMasMovies }}
@@ -292,6 +316,118 @@
     </div>
     {{ end }}
     {{ end }}
+</div>
+<div class="split-page">
+   <span>
+       <h1 class="title has-text-centered">Abstimmungsergebnisse</h1>
+       <h2 class="subtitle has-text-centered">Voting Results</h2>
+       <p>
+           Alles hinter dieser Seite wird erst für das Abstimmungstreffen
+           benötigt
+       </p>
+       <p>
+           Everything behind this page is only required for the selection
+           meeting
+       </p>
+   </span>
+</div>
+<div id="voting-table" style="page-break-before: always">
+    <h5 class="title has-text-centered">Hauptfilme</h5>
+    <h6 class="subtitle has-text-centered">Feature Movies</h6>
+    <table class="table is-fullwidth is-narrow is-bordered">
+        <thead>
+        <tr>
+            <th>Name</th>
+            <th>Movie Name</th>
+            <th>Votes</th>
+            <th>Selected (mark selected)</th>
+        </tr>
+        </thead>
+        <tbody>
+        {{ range $proposedBy, $featureMovies := .FeatureMovies }}
+        {{ range $featureMovies }}
+        <tr>
+            <th>{{ $proposedBy }}</th>
+            <td>{{ .Title }}</td>
+            <td></td>
+            <td></td>
+        </tr>
+        {{ end }}
+        {{ end }}
+        </tbody>
+    </table>
+    <h5 class="title has-text-centered">Dokumentationen</h5>
+    <h6 class="subtitle has-text-centered">Documentaries</h6>
+    <table class="table is-fullwidth is-narrow is-bordered">
+        <thead>
+        <tr>
+            <th>Name</th>
+            <th>Movie Name</th>
+            <th>Votes</th>
+            <th>Selected (mark selected)</th>
+        </tr>
+        </thead>
+        <tbody>
+        {{ range $proposedBy, $featureMovies := .Documentaries }}
+        {{ range $featureMovies }}
+        <tr>
+            <th>{{ $proposedBy }}</th>
+            <td>{{ .Title }}</td>
+            <td></td>
+            <td></td>
+        </tr>
+        {{ end }}
+        {{ end }}
+        </tbody>
+    </table>
+    <h5 class="title has-text-centered">Sonderprogramm: Halloween</h5>
+    <h6 class="subtitle has-text-centered">Special Program: Halloween</h6>
+    <table class="table is-fullwidth is-narrow is-bordered">
+        <thead>
+        <tr>
+            <th>Name</th>
+            <th>Movie Name</th>
+            <th>Votes</th>
+            <th>Selected (mark selected)</th>
+        </tr>
+        </thead>
+        <tbody>
+        {{ range $proposedBy, $featureMovies := .HalloweenMovies }}
+        {{ range $featureMovies }}
+        <tr>
+            <th>{{ $proposedBy }}</th>
+            <td>{{ .Title }}</td>
+            <td></td>
+            <td></td>
+        </tr>
+        {{ end }}
+        {{ end }}
+        </tbody>
+    </table>
+    <h5 class="title has-text-centered">Sonderprogramm: Weihnachten</h5>
+    <h6 class="subtitle has-text-centered">Special Program: X-Mas</h6>
+    <table class="table is-fullwidth is-narrow is-bordered">
+        <thead>
+        <tr>
+            <th>Name</th>
+            <th>Movie Name</th>
+            <th>Votes</th>
+            <th>Selected (mark selected)</th>
+        </tr>
+        </thead>
+        <tbody>
+        {{ range $proposedBy, $featureMovies := .XMasMovies }}
+        {{ range $featureMovies }}
+        <tr>
+            <th>{{ $proposedBy }}</th>
+            <td>{{ .Title }}</td>
+            <td></td>
+            <td></td>
+        </tr>
+        {{ end }}
+        {{ end }}
+        </tbody>
+    </table>
 </div>
 </body>
 </html>
