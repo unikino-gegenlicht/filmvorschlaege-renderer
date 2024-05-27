@@ -5,5 +5,15 @@ $ggl-yellow: #ffdd00;
 );
 
 @media print {
-  .page {page-break-after: always;}
+  .page {
+    page-break-after: always;
+  }
+  .split-page {
+    page-break-before: always;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100vh;
+  }
 }
