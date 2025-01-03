@@ -8,6 +8,7 @@ import (
 
 	"github.com/pterm/pterm"
 
+	"github.com/unikino-gegenlicht/movie-proposal-renderer/templates"
 	"github.com/unikino-gegenlicht/movie-proposal-renderer/types"
 )
 
@@ -27,12 +28,29 @@ func main() {
 	}
 	switch semester {
 	case "Wintersemester":
-		var responses types.WinterResponseFile
+		var responses struct {
+			Responses []types.WinterResponse `json:"responses"`
+		}
 		err = json.NewDecoder(responseFile).Decode(&responses)
 		if err != nil {
 			pterm.DefaultLogger.Fatal("unable to read response file", pterm.DefaultLogger.ArgsFromMap(map[string]any{
 				"error": err.Error(),
 			}))
+		}
+
+		var featureMovies, documentaries, halloweenMovies, christmasMovies map[string][]types.Movie
+		featureMovies = make(map[string][]types.Movie)
+		documentaries = make(map[string][]types.Movie)
+		halloweenMovies = make(map[string][]types.Movie)
+		christmasMovies = make(map[string][]types.Movie)
+		specials := make([]types.Special, 0)
+
+		for _, response := range responses.Responses {
+			featureMovies[response.Name] = response.FeatureMovies()
+			documentaries[response.Name] = response.Documentary()
+			halloweenMovies[response.Name] = response.HalloweenMovie()
+			christmasMovies[response.Name] = response.ChristmasMovie()
+			specials = append(specials, response.Special()...)
 		}
 
 		tmpl, err := template.ParseFS(content, "templates/winter.html")
@@ -41,14 +59,17 @@ func main() {
 				"error": err.Error(),
 			}))
 		}
-		input := types.WinterTemplateInput{
-			SummerTemplateInput: types.SummerTemplateInput{
-				Stylesheet:    stylesheet,
-				FeatureMovies: responses.GetFeatureMovies(),
-				Documentaries: responses.GetDocumentations(),
+
+		input := templates.WinterInput{
+			Input: templates.Input{
+				Stylesheet:               stylesheet,
+				DistributorBlacklistFile: blacklistFileName,
+				FeatureMovies:            featureMovies,
+				Documentaries:            documentaries,
+				Specials:                 specials,
 			},
-			HalloweenMovies: responses.GetHalloweenMovies(),
-			XMasMovies:      responses.GetXmasMovies(),
+			HalloweenMovies: halloweenMovies,
+			ChristmasMovies: christmasMovies,
 		}
 
 		err = tmpl.Execute(outputFile, input)
@@ -57,9 +78,10 @@ func main() {
 				"error": err.Error(),
 			}))
 		}
-		break
 	case "Sommersemester":
-		var responses types.SummerResponseFile
+		var responses struct {
+			Responses []types.Response `json:"responses"`
+		}
 		err = json.NewDecoder(responseFile).Decode(&responses)
 		if err != nil {
 			pterm.DefaultLogger.Fatal("unable to read response file", pterm.DefaultLogger.ArgsFromMap(map[string]any{
@@ -67,16 +89,28 @@ func main() {
 			}))
 		}
 
+		var featureMovies, documentaries map[string][]types.Movie
+		featureMovies = make(map[string][]types.Movie)
+		documentaries = make(map[string][]types.Movie)
+		specials := []types.Special{}
+
+		for _, response := range responses.Responses {
+			featureMovies[response.Name] = response.FeatureMovies()
+			documentaries[response.Name] = response.Documentary()
+			specials = append(specials, response.Special()...)
+		}
 		tmpl, err := template.ParseFS(content, "templates/sommer.html")
 		if err != nil {
 			pterm.DefaultLogger.Fatal("unable to open parse embedded template file", pterm.DefaultLogger.ArgsFromMap(map[string]any{
 				"error": err.Error(),
 			}))
 		}
-		input := types.SummerTemplateInput{
-			Stylesheet:    stylesheet,
-			FeatureMovies: responses.GetFeatureMovies(),
-			Documentaries: responses.GetDocumentations(),
+		input := templates.Input{
+			Stylesheet:               stylesheet,
+			DistributorBlacklistFile: blacklistFileName,
+			FeatureMovies:            featureMovies,
+			Documentaries:            documentaries,
+			Specials:                 specials,
 		}
 
 		err = tmpl.Execute(outputFile, input)
@@ -85,7 +119,6 @@ func main() {
 				"error": err.Error(),
 			}))
 		}
-		break
 	default:
 		pterm.Println(pterm.Red("Unknown semester selected"))
 		os.Exit(3)
