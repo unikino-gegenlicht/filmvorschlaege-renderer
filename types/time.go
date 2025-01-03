@@ -1,16 +1,14 @@
 package types
 
-import (
-	"time"
-)
+import "time"
 
-type SMTime time.Time
+type Time time.Time
 
-func (t *SMTime) UnmarshalJSON(data []byte) error {
+func (t *Time) UnmarshalJSON(data []byte) error {
 	realTime, err := time.Parse(`"2006-01-02 15:04:05"`, string(data))
 	if err != nil {
 		return err
 	}
-	*t = SMTime(realTime)
+	*t = Time(realTime)
 	return nil
 }
