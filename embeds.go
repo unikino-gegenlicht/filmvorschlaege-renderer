@@ -8,3 +8,6 @@ var content embed.FS
 
 //go:embed style.css
 var stylesheet string
+
+//go:embed distributors.txt
+var distributorBlacklist string

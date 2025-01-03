@@ -3,53 +3,54 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Filmvorschläge zum Wintersemester</title>
+    <title>Movie Proposals</title>
     <style>
         {{ .Stylesheet }}
     </style>
 </head>
 <body class="p-4" data-theme="light">
 <div id="introduction" class="content">
-    <h1 class="title has-text-centered is-size-2">Filmvorschläge zum Wintersemester</h1>
+    <h1 class="title has-text-centered is-size-2">Movie Proposals</h1>
     <p>
-        Liebes Team,<br/>es ist mal wieder geschehen.
-        Ihr habt eure Filmvorschläge eingereicht, um die neue Planung für das
-        kommende Wintersemester möglich zu machen.
+        Dear team,<br/>
+        you did it again. You proposed movies for the next winter semester to let the planning start
     </p>
     <p>
-        Ihr konntet dieses Mal für die folgenden Kategorien Vorschläge
-        einreichen:
+        This time you've been able to propose the folloing amount of movies
     </p>
     <ul>
-        <li>2&times; Hauptfilme</li>
-        <li>1&times; Dokumentarfilm</li>
-        <li>1&times; Halloween-Film</li>
-        <li>1&times; Weihnachtsfilm</li>
+        <li>2&times; Feature Movies</li>
+        <li>1&times; Documentary</li>
+        <li>1&times; Halloween Movie</li>
+        <li>1&times; Christmas Movie</li>
     </ul>
+    {{ if gt (len .Specials) 0}}
     <p>
-        Bitte lest euch die vorgeschlagenen Filme einmal kurz durch, sodass wir
-        bei dem Filmauswahltreffen zügig vorankommen und die Kurierenden
-        ausreichend Zeit haben, um sich um die Rechtebeschaffung zu kümmern.
+        Additionally the following special programs have been proposed/announced for the summer semester
     </p>
-    <div style="margin-top: 1rem"></div>
+    <ul>
+        {{ range $proposedBy, $specials := .Specials }}
+        <li>{{ .Title }} (proposed by: {{ .ProposedBy }}/{{ .Frequency }})</li>
+        {{ end }}
+    </ul>
+    {{ end }}
     <p>
-        Damit bleibt nur noch zu sagen: Viel Spaß mit den vorgeschlagenen Filmen
-        und bis zum Auswahltreffen
+       Please read the appended proposals so we are able to have a fast meeting.
     </p>
 </div>
 <div id="movie-split-page" class="split-page">
     <span>
-        <h1 class="title has-text-centered">Hauptfilme</h1>
-        <h2 class="subtitle has-text-centered">Main Program</h2>
+        <h1 class="title has-text-centered">Feature Movies</h1>
     </span>
 </div>
 <div id="movies" style="page-break-before: always">
+    {{ $blFile := .DistributorBlacklistFile }}
     {{ range $proposedBy, $featureMovies := .FeatureMovies }}
     {{ range $featureMovies }}
     <div id="{{ .Title }}" class="page">
         <h2 class="title is-size-3 has-text-centered">{{ .Title }}</h2>
-        <h3 class="subtitle is-size-4 has-text-centered">vorgeschlagen von: {{ $proposedBy }}</h3>
-        {{ if .DistributorWarning }}
+        <h3 class="subtitle is-size-4 has-text-centered">proposed by: {{ $proposedBy }}</h3>
+        {{ if .DistributorWarning $blFile }}
         <div class="notification is-warning is-light">
             <div class="columns is-vcentered">
                 <div class="column is-2">
@@ -60,12 +61,7 @@
                 </div>
                 <div class="column">
                     <p class="has-text-centered has-text-weight-bold">
-                        Die Beschaffung der Filmrechte ist bei diesem Film sehr
-                        wahrscheinlich nicht möglich, da {{ .Distributor }}
-                        keine Filmrechte an kleine Kinos, so wie unseres,
-                        herausgibt. Somit besteht die Gefahr, dass dieser Film
-                        nicht öffentlichkeitswirksam (also auf Social-Media und
-                        unseren Print-Produkten) beworben werden darf.
+                        Obtaining the film rights for this movie is most likely not possible, as {{ .Distributor }} does not issue film rights to small cinemas like ours, like ours. Therefore there is a risk that this film is not be advertised to the public (i.e. on social media and our website).
                     </p>
                 </div>
             </div>
@@ -74,32 +70,32 @@
         <div class="field is-grouped is-grouped-multiline is-grouped-centered" id="{{ .Title }}-tags">
             <div class="control">
                 <div class="tags has-addons">
-                    <span class="tag is-dark">Sprache</span>
+                    <span class="tag is-dark">Language</span>
                     <span class="tag is-info">{{ .AudioLanguage  }}</span>
                 </div>
             </div>
             <div class="control">
                 <div class="tags has-addons">
-                    <span class="tag is-dark">Rechteinhaber</span>
+                    <span class="tag is-dark">Distributor</span>
                     <span class="tag is-info">{{ .Distributor  }}</span>
                 </div>
             </div>
             <div class="control">
                 <div class="tags has-addons">
-                    <span class="tag is-dark">Jahr der Veröffentlichung</span>
-                    <span class="tag is-info">{{ .Release.Format "2006"  }}</span>
+                    <span class="tag is-dark">Released in</span>
+                    <span class="tag is-info">{{ .ReleaseYear.Format "2006"  }}</span>
                 </div>
             </div>
             <div class="control">
                 <div class="tags has-addons">
-                    <span class="tag is-dark">Land</span>
-                    <span class="tag is-info is-uppercase">{{ .Country  }}</span>
+                    <span class="tag is-dark">Country</span>
+                    <span class="tag is-info is-uppercase">{{ .CountryOfOrigin  }}</span>
                 </div>
             </div>
             <div class="control">
                 <div class="tags has-addons">
                     <span class="tag is-dark">IMDB</span>
-                    <span class="tag is-info">{{ .IMDBUrl  }}</span>
+                    <span class="tag is-info"><a class="has-text-black" href="{{ .IMDBUrl  }}">{{ .IMDBUrl }}</a></span>
                 </div>
             </div>
         </div>
@@ -112,17 +108,17 @@
 </div>
 <div class="split-page">
    <span>
-       <h1 class="title has-text-centered">Dokumentationen</h1>
-       <h2 class="subtitle has-text-centered">Documentations</h2>
+       <h1 class="title has-text-centered">Documentaries</h1>
    </span>
 </div>
 <div id="documentaries" style="page-break-before: always">
-    {{ range $proposedBy, $featureMovies := .Documentaries }}
-    {{ range $featureMovies }}
+    {{ $blFile := .DistributorBlacklistFile }}
+    {{ range $proposedBy, $documentaries := .Documentaries }}
+    {{ range $documentaries }}
     <div id="{{ .Title }}" class="page">
         <h2 class="title is-size-3 has-text-centered">{{ .Title }}</h2>
-        <h3 class="subtitle is-size-4 has-text-centered">vorgeschlagen von: {{ $proposedBy }}</h3>
-        {{ if .DistributorWarning }}
+        <h3 class="subtitle is-size-4 has-text-centered">proposed by: {{ $proposedBy }}</h3>
+        {{ if .DistributorWarning $blFile }}
         <div class="notification is-warning is-light">
             <div class="columns is-vcentered">
                 <div class="column is-2">
@@ -133,12 +129,7 @@
                 </div>
                 <div class="column">
                     <p class="has-text-centered has-text-weight-bold">
-                        Die Beschaffung der Filmrechte ist bei diesem Film sehr
-                        wahrscheinlich nicht möglich, da {{ .Distributor }}
-                        keine Filmrechte an kleine Kinos, so wie unseres,
-                        herausgibt. Somit besteht die Gefahr, dass dieser Film
-                        nicht öffentlichkeitswirksam (also auf Social-Media und
-                        unseren Print-Produkten) beworben werden darf.
+                        Obtaining the film rights for this movie is most likely not possible, as {{ .Distributor }} does not issue film rights to small cinemas like ours, like ours. Therefore there is a risk that this film is not be advertised to the public (i.e. on social media and our website).
                     </p>
                 </div>
             </div>
@@ -147,32 +138,32 @@
         <div class="field is-grouped is-grouped-multiline is-grouped-centered" id="{{ .Title }}-tags">
             <div class="control">
                 <div class="tags has-addons">
-                    <span class="tag is-dark">Sprache</span>
+                    <span class="tag is-dark">Language</span>
                     <span class="tag is-info">{{ .AudioLanguage  }}</span>
                 </div>
             </div>
             <div class="control">
                 <div class="tags has-addons">
-                    <span class="tag is-dark">Rechteinhaber</span>
+                    <span class="tag is-dark">Distributor</span>
                     <span class="tag is-info">{{ .Distributor  }}</span>
                 </div>
             </div>
             <div class="control">
                 <div class="tags has-addons">
-                    <span class="tag is-dark">Jahr der Veröffentlichung</span>
-                    <span class="tag is-info">{{ .Release.Format "2006"  }}</span>
+                    <span class="tag is-dark">Released in</span>
+                    <span class="tag is-info">{{ .ReleaseYear.Format "2006"  }}</span>
                 </div>
             </div>
             <div class="control">
                 <div class="tags has-addons">
-                    <span class="tag is-dark">Land</span>
-                    <span class="tag is-info is-uppercase">{{ .Country  }}</span>
+                    <span class="tag is-dark">Country</span>
+                    <span class="tag is-info is-uppercase">{{ .CountryOfOrigin  }}</span>
                 </div>
             </div>
             <div class="control">
                 <div class="tags has-addons">
                     <span class="tag is-dark">IMDB</span>
-                    <span class="tag is-info">{{ .IMDBUrl  }}</span>
+                    <span class="tag is-info"><a class="has-text-black" href="{{ .IMDBUrl  }}">{{ .IMDBUrl }}</a></span>
                 </div>
             </div>
         </div>
@@ -185,17 +176,18 @@
 </div>
 <div class="split-page">
     <span>
-        <h1 class="title has-text-centered">Sonderprogramm: Halloween</h1>
-        <h2 class="subtitle has-text-centered">Special Program: Halloween</h2>
+        <h1 class="title has-text-centered">Halloween Movies</h1>
     </span>
-</div>
-<div id="halloweenMovies" style="page-break-before: always">
-    {{ range $proposedBy, $featureMovies := .HalloweenMovies }}
-    {{ range $featureMovies }}
+ </div>
+
+ <div id="halloweenFeatures" style="page-break-before: always">
+    {{ $blFile := .DistributorBlacklistFile }}
+    {{ range $proposedBy, $halloweenFeatures := .HalloweenMovies }}
+    {{ range $halloweenFeature }}
     <div id="{{ .Title }}" class="page">
         <h2 class="title is-size-3 has-text-centered">{{ .Title }}</h2>
-        <h3 class="subtitle is-size-4 has-text-centered">vorgeschlagen von: {{ $proposedBy }}</h3>
-        {{ if .DistributorWarning }}
+        <h3 class="subtitle is-size-4 has-text-centered">proposed by: {{ $proposedBy }}</h3>
+        {{ if .DistributorWarning $blFile }}
         <div class="notification is-warning is-light">
             <div class="columns is-vcentered">
                 <div class="column is-2">
@@ -206,12 +198,7 @@
                 </div>
                 <div class="column">
                     <p class="has-text-centered has-text-weight-bold">
-                        Die Beschaffung der Filmrechte ist bei diesem Film sehr
-                        wahrscheinlich nicht möglich, da {{ .Distributor }}
-                        keine Filmrechte an kleine Kinos, so wie unseres,
-                        herausgibt. Somit besteht die Gefahr, dass dieser Film
-                        nicht öffentlichkeitswirksam (also auf Social-Media und
-                        unseren Print-Produkten) beworben werden darf.
+                        Obtaining the film rights for this movie is most likely not possible, as {{ .Distributor }} does not issue film rights to small cinemas like ours, like ours. Therefore there is a risk that this film is not be advertised to the public (i.e. on social media and our website).
                     </p>
                 </div>
             </div>
@@ -220,93 +207,32 @@
         <div class="field is-grouped is-grouped-multiline is-grouped-centered" id="{{ .Title }}-tags">
             <div class="control">
                 <div class="tags has-addons">
-                    <span class="tag is-dark">Rechteinhaber</span>
-                    <span class="tag is-info">{{ .Distributor  }}</span>
-                </div>
-            </div>
-            <div class="control">
-                <div class="tags has-addons">
-                    <span class="tag is-dark">Jahr der Veröffentlichung</span>
-                    <span class="tag is-info">{{ .Release.Format "2006"  }}</span>
-                </div>
-            </div>
-            <div class="control">
-                <div class="tags has-addons">
-                    <span class="tag is-dark">Land</span>
-                    <span class="tag is-info is-uppercase">{{ .Country  }}</span>
-                </div>
-            </div>
-        </div>
-        <p>
-            {{ .Description }}
-        </p>
-    </div>
-    {{ end }}
-    {{ end }}
-</div>
-<div class="split-page">
-    <span>
-        <h1 class="title has-text-centered">Sonderprogramm: Weihnachten</h1>
-        <h3 class="subtitle has-text-centered">Special Program: X-Mas</h3>
-    </span>
-</div>
-<div id="christmasMovies" style="page-break-before: always">
-    {{ range $proposedBy, $featureMovies := .XMasMovies }}
-    {{ range $featureMovies }}
-    <div id="{{ .Title }}" class="page">
-        <h2 class="title is-size-3 has-text-centered">{{ .Title }}</h2>
-        <h3 class="subtitle is-size-4 has-text-centered">vorgeschlagen von: {{ $proposedBy }}</h3>
-        {{ if .DistributorWarning }}
-        <div class="notification is-warning is-light">
-            <div class="columns is-vcentered">
-                <div class="column is-2">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                        <path fill="currentColor"
-                              d="M1 21h22L12 2zm3.47-2L12 5.99L19.53 19zM11 16h2v2h-2zm0-6h2v4h-2z"/>
-                    </svg>
-                </div>
-                <div class="column">
-                    <p class="has-text-centered has-text-weight-bold">
-                        Die Beschaffung der Filmrechte ist bei diesem Film sehr
-                        wahrscheinlich nicht möglich, da {{ .Distributor }}
-                        keine Filmrechte an kleine Kinos, so wie unseres,
-                        herausgibt. Somit besteht die Gefahr, dass dieser Film
-                        nicht öffentlichkeitswirksam (also auf Social-Media und
-                        unseren Print-Produkten) beworben werden darf.
-                    </p>
-                </div>
-            </div>
-        </div>
-        {{ end }}
-        <div class="field is-grouped is-grouped-multiline is-grouped-centered" id="{{ .Title }}-tags">
-            <div class="control">
-                <div class="tags has-addons">
-                    <span class="tag is-dark">Sprache</span>
+                    <span class="tag is-dark">Language</span>
                     <span class="tag is-info">{{ .AudioLanguage  }}</span>
                 </div>
             </div>
             <div class="control">
                 <div class="tags has-addons">
-                    <span class="tag is-dark">Rechteinhaber</span>
+                    <span class="tag is-dark">Distributor</span>
                     <span class="tag is-info">{{ .Distributor  }}</span>
                 </div>
             </div>
             <div class="control">
                 <div class="tags has-addons">
-                    <span class="tag is-dark">Jahr der Veröffentlichung</span>
-                    <span class="tag is-info">{{ .Release.Format "2006"  }}</span>
+                    <span class="tag is-dark">Released in</span>
+                    <span class="tag is-info">{{ .ReleaseYear.Format "2006"  }}</span>
                 </div>
             </div>
             <div class="control">
                 <div class="tags has-addons">
-                    <span class="tag is-dark">Land</span>
-                    <span class="tag is-info is-uppercase">{{ .Country  }}</span>
+                    <span class="tag is-dark">Country</span>
+                    <span class="tag is-info is-uppercase">{{ .CountryOfOrigin  }}</span>
                 </div>
             </div>
             <div class="control">
                 <div class="tags has-addons">
                     <span class="tag is-dark">IMDB</span>
-                    <span class="tag is-info">{{ .IMDBUrl  }}</span>
+                    <span class="tag is-info"><a class="has-text-black" href="{{ .IMDBUrl  }}">{{ .IMDBUrl }}</a></span>
                 </div>
             </div>
         </div>
@@ -317,14 +243,80 @@
     {{ end }}
     {{ end }}
 </div>
+
+<div class="split-page">
+    <span>
+        <h1 class="title has-text-centered">Christmas Movies</h1>
+    </span>
+ </div>
+
+ <div id="halloweenFeatures" style="page-break-before: always">
+    {{ $blFile := .DistributorBlacklistFile }}
+    {{ range $proposedBy, $halloweenFeatures := .ChristmasMovies }}
+    {{ range $halloweenFeature }}
+    <div id="{{ .Title }}" class="page">
+        <h2 class="title is-size-3 has-text-centered">{{ .Title }}</h2>
+        <h3 class="subtitle is-size-4 has-text-centered">proposed by: {{ $proposedBy }}</h3>
+        {{ if .DistributorWarning $blFile }}
+        <div class="notification is-warning is-light">
+            <div class="columns is-vcentered">
+                <div class="column is-2">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                        <path fill="currentColor"
+                              d="M1 21h22L12 2zm3.47-2L12 5.99L19.53 19zM11 16h2v2h-2zm0-6h2v4h-2z"/>
+                    </svg>
+                </div>
+                <div class="column">
+                    <p class="has-text-centered has-text-weight-bold">
+                        Obtaining the film rights for this movie is most likely not possible, as {{ .Distributor }} does not issue film rights to small cinemas like ours, like ours. Therefore there is a risk that this film is not be advertised to the public (i.e. on social media and our website).
+                    </p>
+                </div>
+            </div>
+        </div>
+        {{ end }}
+        <div class="field is-grouped is-grouped-multiline is-grouped-centered" id="{{ .Title }}-tags">
+            <div class="control">
+                <div class="tags has-addons">
+                    <span class="tag is-dark">Language</span>
+                    <span class="tag is-info">{{ .AudioLanguage  }}</span>
+                </div>
+            </div>
+            <div class="control">
+                <div class="tags has-addons">
+                    <span class="tag is-dark">Distributor</span>
+                    <span class="tag is-info">{{ .Distributor  }}</span>
+                </div>
+            </div>
+            <div class="control">
+                <div class="tags has-addons">
+                    <span class="tag is-dark">Released in</span>
+                    <span class="tag is-info">{{ .ReleaseYear.Format "2006"  }}</span>
+                </div>
+            </div>
+            <div class="control">
+                <div class="tags has-addons">
+                    <span class="tag is-dark">Country</span>
+                    <span class="tag is-info is-uppercase">{{ .CountryOfOrigin  }}</span>
+                </div>
+            </div>
+            <div class="control">
+                <div class="tags has-addons">
+                    <span class="tag is-dark">IMDB</span>
+                    <span class="tag is-info"><a class="has-text-black" href="{{ .IMDBUrl  }}">{{ .IMDBUrl }}</a></span>
+                </div>
+            </div>
+        </div>
+        <p>
+            {{ .Description }}
+        </p>
+    </div>
+    {{ end }}
+    {{ end }}
+</div>
+
 <div class="split-page">
    <span>
-       <h1 class="title has-text-centered">Abstimmungsergebnisse</h1>
-       <h2 class="subtitle has-text-centered">Voting Results</h2>
-       <p>
-           Alles hinter dieser Seite wird erst für das Abstimmungstreffen
-           benötigt
-       </p>
+       <h1 class="title has-text-centered">Voting Results</h1>
        <p>
            Everything behind this page is only required for the selection
            meeting
@@ -332,9 +324,8 @@
    </span>
 </div>
 <div id="voting-table" style="page-break-before: always">
-    <h5 class="title has-text-centered">Hauptfilme</h5>
-    <h6 class="subtitle has-text-centered">Feature Movies</h6>
-    <table class="table is-fullwidth is-narrow is-bordered">
+    <h6 class="title has-text-centered">Feature Movies</h6>
+    <table class="table is-fullwidth is-bordered">
         <thead>
         <tr>
             <th>Name</th>
@@ -356,9 +347,8 @@
         {{ end }}
         </tbody>
     </table>
-    <h5 class="title has-text-centered">Dokumentationen</h5>
-    <h6 class="subtitle has-text-centered">Documentaries</h6>
-    <table class="table is-fullwidth is-narrow is-bordered">
+    <h6 class="title has-text-centered">Documentaries</h6>
+    <table class="table is-fullwidth is-bordered">
         <thead>
         <tr>
             <th>Name</th>
@@ -369,54 +359,6 @@
         </thead>
         <tbody>
         {{ range $proposedBy, $featureMovies := .Documentaries }}
-        {{ range $featureMovies }}
-        <tr>
-            <th>{{ $proposedBy }}</th>
-            <td>{{ .Title }}</td>
-            <td></td>
-            <td></td>
-        </tr>
-        {{ end }}
-        {{ end }}
-        </tbody>
-    </table>
-    <h5 class="title has-text-centered">Sonderprogramm: Halloween</h5>
-    <h6 class="subtitle has-text-centered">Special Program: Halloween</h6>
-    <table class="table is-fullwidth is-narrow is-bordered">
-        <thead>
-        <tr>
-            <th>Name</th>
-            <th>Movie Name</th>
-            <th>Votes</th>
-            <th>Selected (mark selected)</th>
-        </tr>
-        </thead>
-        <tbody>
-        {{ range $proposedBy, $featureMovies := .HalloweenMovies }}
-        {{ range $featureMovies }}
-        <tr>
-            <th>{{ $proposedBy }}</th>
-            <td>{{ .Title }}</td>
-            <td></td>
-            <td></td>
-        </tr>
-        {{ end }}
-        {{ end }}
-        </tbody>
-    </table>
-    <h5 class="title has-text-centered">Sonderprogramm: Weihnachten</h5>
-    <h6 class="subtitle has-text-centered">Special Program: X-Mas</h6>
-    <table class="table is-fullwidth is-narrow is-bordered">
-        <thead>
-        <tr>
-            <th>Name</th>
-            <th>Movie Name</th>
-            <th>Votes</th>
-            <th>Selected (mark selected)</th>
-        </tr>
-        </thead>
-        <tbody>
-        {{ range $proposedBy, $featureMovies := .XMasMovies }}
         {{ range $featureMovies }}
         <tr>
             <th>{{ $proposedBy }}</th>
